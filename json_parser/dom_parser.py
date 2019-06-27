@@ -1,5 +1,6 @@
 import re
 
+
 class LexTree:
     def __init__(self):
         self.root = {}
@@ -30,28 +31,42 @@ class LexTree:
 
 
 class Token:
-    def __init__(self, name, regex, content_group = 0):
+    def __init__(self, name, regex):
         self.name = name
         self.regex = r'[ \n\t]*' + regex
-        self.last_size = 0
-        self.content_group = content_group
+        self.expects = []
 
-    def __contains__(self, line):
-        result = re.match(self.regex)
+    def set_line(self, line):
+        self.result = re.match(self.regex, line)
+
+    def __bool__(self):
         if result:
-            self.last_size = len(result.group(0))
             return True
         else:
             return False
 
-    def get_content(self, line):
-        return re.match(self.regex).group(self.content_group)
+    def get_content(self, groupName):
+        return self.result.group(groupName)
+
+    def expects(self, tokens):
+        self.expects.append(tokens)
+
 
 def get_json_tree(filename):
-    key = Token('key', r'\"(.*)\"[\n\t ]*:', 1)
+    key = Token('key', r'\"(?<string>.*)\"[\n\t ]*:')
     opo = Token('opo', r'\{')
     clo = Token('clo', r'\}')
     opl = Token('opl', r'\[')
     cll = Token('cll', r'\]')
-    sep = Token('sep', r',') 
+    sep = Token('sep', r',')
+    val = Token(
+        'val', r'\"(?<string>.*)\"|(?<digit>-?[\d]+(?:.[\d]+)?)|(?<value>true|false|null)')
+    nth = Token('nth', r'')
 
+    key.expects([val, opo, opl])
+    opo.expects([key, clo])
+    clo.expects([sep, nth, clo])
+    opl.expects([key, cll])
+    cll.expects([sep, clo])
+    sep.expects([key, val])
+    val.expects([sep, cll, clo])
