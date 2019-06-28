@@ -1,0 +1,46 @@
+{
+  "_id": "5d15ddcb9cd3994a6caf60ba",
+  "tags": [
+    "eu",
+    "laborum",
+    "nulla",
+    "fugiat",
+    "culpa",
+    "aliqua",
+    "do"
+  ],
+  "index": 1,
+  "guid": "18ca9d99-4d10-4f3a-b0d0-1f4f208d211b",
+  "isActive": true,
+  "balance": "$3,276.99",
+  "picture": "http://placehold.it/32x32",
+  "age": 23,
+  "eyeColor": "green",
+  "name": "Pitts Weber",
+  "gender": "male",
+  "company": "ACCUFARM",
+  "email": "pittsweber@accufarm.com",
+  "phone": "+1 (998) 414-3474",
+  "address": "155 Congress Street, Crown, Palau, 5896",
+  "about": "Labore exercitation tempor incididunt dolore proident est aliquip aute anim. Tempor id deserunt eiusmod exercitation Lorem dolore non ullamco non eiusmod sunt ipsum nisi. Sunt voluptate non officia enim id ut aliqua ullamco ut labore reprehenderit voluptate eu non. In reprehenderit est magna enim ullamco ullamco labore cupidatat quis esse. Ipsum consectetur cupidatat excepteur adipisicing fugiat sint occaecat id enim fugiat ex.\r\n",
+  "registered": "2014-07-15T08:30:18 -04:00",
+  "latitude": -47.663557,
+  "longitude": -10.047283,
+  
+  "friends": [
+    {
+      "id": 0,
+      "name": "Ila Sullivan"
+    },
+    {
+      "id": 1,
+      "name": "Charlotte Jefferson"
+    },
+    {
+      "id": 2,
+      "name": "Wilson Garner"
+    }
+  ],
+  "greeting": "Hello, Pitts Weber! You have 2 unread messages.",
+  "favoriteFruit": "strawberry"
+}

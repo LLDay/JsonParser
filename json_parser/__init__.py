@@ -1,2 +1,1 @@
-
-from json_parser import *
+from . import dom_parser
