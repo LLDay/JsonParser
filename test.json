@@ -9,6 +9,20 @@
     "aliqua",
     "do"
   ],
+  "friends": [
+    {
+      "id": 0,
+      "name": "Ila Sullivan"
+    },
+    {
+      "id": 1,
+      "name": "Charlotte Jefferson"
+    },
+    {
+      "id": 2,
+      "name": "Wilson Garner"
+    }
+  ],
   "index": 1,
   "guid": "18ca9d99-4d10-4f3a-b0d0-1f4f208d211b",
   "isActive": true,
@@ -26,21 +40,6 @@
   "registered": "2014-07-15T08:30:18 -04:00",
   "latitude": -47.663557,
   "longitude": -10.047283,
-  
-  "friends": [
-    {
-      "id": 0,
-      "name": "Ila Sullivan"
-    },
-    {
-      "id": 1,
-      "name": "Charlotte Jefferson"
-    },
-    {
-      "id": 2,
-      "name": "Wilson Garner"
-    }
-  ],
   "greeting": "Hello, Pitts Weber! You have 2 unread messages.",
   "favoriteFruit": "strawberry"
 }

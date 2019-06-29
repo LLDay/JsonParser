@@ -1,7 +1,7 @@
 class LexTreeBuilder:
     def __init__(self):
         self._root = {}
-        self._current = _root
+        self._current = self._root
         self._trace = []
 
     def add_object(self, key_name):
