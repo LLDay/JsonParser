@@ -13,10 +13,10 @@ class Token:
         return self._content.group(group)
 
     def __str__(self):
-        return self._type
+        return self._type.name
 
     def __repr__(self):
-        return "Token('{0}', '{1}')".format(self.get_content(), self._type)
+        return "Token('{0}', '{1}')".format(self.get_content(), self._type.name)
 
 
 class TokenType(Enum):
@@ -42,8 +42,8 @@ class TokenGen:
     def expectations(self):
         return self._expects
 
-    def generate(self, line):
-        content = re.match(self._lexem, line)
+    def generate(self, text):
+        content = re.match(self._lexem, text)
         return Token(content, self._type)
 
     def __str__(self):
@@ -73,23 +73,33 @@ def get_tokens(filename):
     sep.expects([key, val, opo, opl])
     val.expects([sep, cll, clo])
 
-    file = open(filename)
-    all_text = file.read()
-    file.close()
+    with open(filename) as file:
+        last_gen = beg
+        text = ' '
 
-    last_gen = beg
+        while True:
+            last_read = file.readline()
+            text += last_read
+            found_token = True
 
-    tok_list = [key, opo, clo, opl, cll, sep, val]
-    while all_text:
-        last_json = all_text
+            while found_token:
+                if not text.strip():
+                    break
+                
+                found_token = False
 
-        for tokenGen in last_gen.expectations():
-            token = tokenGen.generate(all_text)
-            if token:
-                all_text = all_text[len(token.get_content()):]
-                last_gen = tokenGen
-                yield token
+                for tokenGen in last_gen.expectations():
+                    token = tokenGen.generate(text)
+
+                    if token:
+                        text = text[len(token.get_content()):]
+                        last_gen = tokenGen
+                        found_token = True
+                        yield token
+                        break
+
+            if text and not last_read:
+                raise RuntimeError
+            
+            if not text and not last_read:
                 break
-
-        if all_text == last_json:
-            raise RuntimeError
