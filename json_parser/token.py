@@ -52,8 +52,7 @@ class TokenGen:
     def __repr__(self):
         return "TokenGen('{0}')".format(self._lexem)
 
-
-def get_tokens(filename):
+def get_token_generator():
     key = TokenGen(TokenType.Key, r'\"(.*)\":')
     opo = TokenGen(TokenType.OpenObject, r'\{')
     clo = TokenGen(TokenType.CloseObject, r'\}')
@@ -73,8 +72,11 @@ def get_tokens(filename):
     sep.expects([key, val, opo, opl])
     val.expects([sep, cll, clo])
 
+    return beg
+
+def get_tokens(filename):
     with open(filename) as file:
-        last_gen = beg
+        last_gen = get_token_generator()
         text = ' '
 
         while True:
