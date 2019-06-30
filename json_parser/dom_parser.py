@@ -1,17 +1,16 @@
-from .token import TokenGen
+from .token import *
 from .lex_tree import LexTreeBuilder
 
-def get_json_tree(filename):
-    key = TokenGen(r'\"(.*)\":')
-    opo = TokenGen(r'\{')
-    clo = TokenGen(r'\}')
-    opl = TokenGen(r'\[')
-    cll = TokenGen(r'\]')
-    sep = TokenGen(r',')
-    val = TokenGen(r'(?:\"(.*)\"|(-?[\d]+(?:.[\d]+)?)|(true|false|null))')
+def get_tokens(filename):
+    key = TokenGen(TokenType.Key, r'\"(.*)\":')
+    opo = TokenGen(TokenType.OpenObject, r'\{')
+    clo = TokenGen(TokenType.CloseObject, r'\}')
+    opl = TokenGen(TokenType.OpenList, r'\[')
+    cll = TokenGen(TokenType.CloseList, r'\]')
+    sep = TokenGen(TokenType.Separator, r',')
+    val = TokenGen(TokenType.Value, r'(?:\"(.*)\"|(-?[\d]+(?:.[\d]+)?)|(true|false|null))')
     
-    beg = TokenGen(r'')
-    end = TokenGen(r'')
+    beg = TokenGen('beg', r'')
     
     beg.expects([opo, opl])
     key.expects([val, opo, opl])
@@ -23,24 +22,23 @@ def get_json_tree(filename):
     val.expects([sep, cll, clo])
 
     file = open(filename)
-    all_json = file.read()
+    all_text = file.read()
     file.close()
 
-    yield beg
-    last_token = beg
+    last_gen = beg
 
-    while all_json:
-        last_json = all_json
+    tok_list = [key, opo, clo, opl, cll, sep, val]
+    while all_text:
+        last_json = all_text
 
-        for tokenGen in last_token.expectation_list():
-            token = tokenGen.generator(all_json)
+        for tokenGen in last_gen.expectation_list():
+            token = tokenGen.generate(all_text)
             if token:
-                all_json = all_json[len(token.get_content()):]
-                last_token = token
+                all_text = all_text[len(token.get_content()):]
+                last_gen = tokenGen
                 yield token
                 break
 
-        if all_json == last_json:
+        if all_text == last_json:
             raise RuntimeError
 
-    yield end
