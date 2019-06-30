@@ -1,4 +1,8 @@
 from .token import *
-from .lex_tree import LexTreeBuilder
+from .json_tree import JsonTreeBuilder
 
 
+def parse():
+    tokens = get_tokens()
+
+    

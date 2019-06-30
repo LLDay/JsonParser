@@ -19,6 +19,7 @@ class Token:
         return "Token('{0}', '{1}')".format(self.get_content(), self._type.name)
 
 
+
 class TokenType(Enum):
     Key = 0
     OpenObject = 1
@@ -28,6 +29,8 @@ class TokenType(Enum):
     Separator = 5
     Value = 6
     Begin = 7
+    Root = 8
+
 
 
 class TokenGen:
@@ -36,8 +39,11 @@ class TokenGen:
         self._lexem = r'[ \n\t]*' + lexem
         self._expects = []
 
-    def expects(self, tokens):
-        self._expects.extend(tokens)
+    def expects(self, token):
+        if isinstance(token, list):
+            self._expects.extend(token)
+        else:
+            self._expects.append(token)
 
     def expectations(self):
         return self._expects
@@ -52,7 +58,9 @@ class TokenGen:
     def __repr__(self):
         return "TokenGen('{0}')".format(self._lexem)
 
-def get_token_generator():
+
+
+def _get_token_generator():
     key = TokenGen(TokenType.Key, r'\"(.*)\":')
     opo = TokenGen(TokenType.OpenObject, r'\{')
     clo = TokenGen(TokenType.CloseObject, r'\}')
@@ -62,8 +70,10 @@ def get_token_generator():
     val = TokenGen(TokenType.Value,
                    r'(?:\"(.*)\"|(-?[\d]+(?:.[\d]+)?)|(true|false|null))')
     beg = TokenGen(TokenType.Begin, r'')
+    root = TokenGen(TokenType.Root, r'"root":')
 
-    beg.expects([opo, opl])
+    beg.expects(root)
+    root.expects([opo, opl])
     key.expects([val, opo, opl])
     opo.expects([key, clo, opl])
     clo.expects([sep, clo, cll])
@@ -74,10 +84,12 @@ def get_token_generator():
 
     return beg
 
+
+
 def get_tokens(filename):
     with open(filename) as file:
-        last_gen = get_token_generator()
-        text = ' '
+        last_gen = _get_token_generator()
+        text = '"root":'
 
         while True:
             last_read = file.readline()
