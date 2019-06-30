@@ -1,3 +1,3 @@
-from . import dom_parser as dp
+from . import token
 
-print([v for v in dp.get_tokens('test.json')])
+print([v for v in token.get_tokens('test.json')])
