@@ -9,8 +9,7 @@ def get_tokens(filename):
     cll = TokenGen(TokenType.CloseList, r'\]')
     sep = TokenGen(TokenType.Separator, r',')
     val = TokenGen(TokenType.Value, r'(?:\"(.*)\"|(-?[\d]+(?:.[\d]+)?)|(true|false|null))')
-    
-    beg = TokenGen('beg', r'')
+    beg = TokenGen(TokenType.Begin, r'')
     
     beg.expects([opo, opl])
     key.expects([val, opo, opl])

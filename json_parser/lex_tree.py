@@ -1,17 +1,3 @@
-class TreeNode:
-    def __init__(self, val, val_type):
-        self._val = val
-        self._type = val_type
-
-    def is_list(self):
-        return self._type == 'list'
-
-    def is_object(self):
-        return self._type == 'object'
-
-    def is_single(self):
-        return self._type == 'single'
-
     
 
 class LexTreeBuilder:
