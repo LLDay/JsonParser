@@ -12,6 +12,9 @@ class Token:
     def get_content(self, group=0):
         return self._content.group(group)
 
+    def get_type(self):
+        return self._type
+
     def __str__(self):
         return self._type.name
 
@@ -27,9 +30,11 @@ class TokenType(Enum):
     OpenList = 3
     CloseList = 4
     Separator = 5
-    Value = 6
-    Begin = 7
-    Root = 8
+    ValueString = 6
+    ValueDigit = 7
+    ValueTFN = 8
+    Begin = 9
+    Root = 10
 
 
 
@@ -67,20 +72,21 @@ def _get_token_generator():
     opl = TokenGen(TokenType.OpenList, r'\[')
     cll = TokenGen(TokenType.CloseList, r'\]')
     sep = TokenGen(TokenType.Separator, r',')
-    val = TokenGen(TokenType.Value,
-                   r'(?:\"(.*)\"|(-?[\d]+(?:.[\d]+)?)|(true|false|null))')
+    vst = TokenGen(TokenType.ValueString, r'\"(.*)\"')
+    vdi = TokenGen(TokenType.ValueDigit, r'(-?[\d]+(?:.[\d]+)?)')
+    vbn = TokenGen(TokenType.ValueTFN, r'(true|false|null)')
     beg = TokenGen(TokenType.Begin, r'')
-    root = TokenGen(TokenType.Root, r'"root":')
 
-    beg.expects(root)
-    root.expects([opo, opl])
-    key.expects([val, opo, opl])
+    beg.expects([opo, opl])
+    key.expects([vst, vdi, vbn, opo, opl])
     opo.expects([key, clo, opl])
     clo.expects([sep, clo, cll])
-    opl.expects([val, cll, opo])
+    opl.expects([vst, vdi, vbn, cll, opo])
     cll.expects([sep, cll, clo])
-    sep.expects([key, val, opo, opl])
-    val.expects([sep, cll, clo])
+    sep.expects([key, vst, vdi, vbn, opo, opl])
+    vst.expects([sep, cll, clo])
+    vdi.expects([sep, cll, clo])
+    vbn.expects([sep, cll, clo])
 
     return beg
 
@@ -89,7 +95,7 @@ def _get_token_generator():
 def get_tokens(filename):
     with open(filename) as file:
         last_gen = _get_token_generator()
-        text = '"root":'
+        text = ''
 
         while True:
             last_read = file.readline()
