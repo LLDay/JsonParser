@@ -1,33 +1,44 @@
 from .token import *
-from .json_tree import JsonTreeBuilder
+from .json_tree import *
 
 class TokenRules:
+    def add_key(tree, tok):
+        tree.add_key(tok.get_content(1))
+
+
     def open_object(tree, tok):
         tree.add_object()
 
-    def add_key(tree, tok):
-        tree.add_key(tok.get_content(1))
 
     def close_object(tree, tok):
         tree.back()
 
+
     def open_list(tree, tok):
         tree.add_list()
+
 
     def close_list(tree, tok):
         tree.back()
 
+
     def add_string(tree, tok):
         tree.add_value(tok.get_content(1))
 
+
     def add_digit(tree, tok):
-        tree.add_value(float(tok.get_content(1)))
+        digit = tok.get_content(1)
+        if '.' in digit:
+            return float(digit)
+        return int(digit)
+
 
     def add_tfn(tree, tok):
-        tree.add_value(tok.get_content(1))
+        value = tok.get_content(1)
+        tree.add_value(JsonValues[value])
 
 
-def parse():
+def parse(filename):
     json_builder = JsonTreeBuilder()
 
     rules = {
@@ -41,7 +52,7 @@ def parse():
         TokenType.ValueDigit: TokenRules.add_digit
     }
 
-    for token in get_tokens('test.json'):
+    for token in get_tokens(filename):
         rules.get(token.get_type(), lambda tree, tok: 0)(json_builder, token)
     
-    print(json_builder.get_tree())
+    return json_builder.get_tree()

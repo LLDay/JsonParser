@@ -1,3 +1,4 @@
 from . import token
+from . import dom_parser
 
-print([str(v) for v in token.get_tokens('test.json')])
+dom_parser.parse("test.json")
