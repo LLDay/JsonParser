@@ -1,4 +1,7 @@
-from . import token
-from . import dom_parser
+from . import json_parser as jp
 
-dom_parser.parse("test.json")
+json_parser = jp.JsonParser('test.json')
+
+print(len(json_parser[0]))
+print(json_parser[0].get('age', None))
+print(len(json_parser[0]))

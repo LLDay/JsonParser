@@ -29,8 +29,9 @@ class TokenRules:
     def add_digit(tree, tok):
         digit = tok.get_content(1)
         if '.' in digit:
-            return float(digit)
-        return int(digit)
+            tree.add_value(float(digit))
+        else:
+            tree.add_value(int(digit))
 
 
     def add_tfn(tree, tok):

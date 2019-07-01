@@ -1,28 +1,21 @@
+from . import dom_parser as dp
 
-
-class JsonParser:
+class JsonParser(dict):
     def __init__(self, filename):
-        pass
+        return super().__init__(dp.parse(filename))
 
     def __getitem__(self, key):
-        '''
-        Get a value by `key`
-        '''
-        pass
-    
+        return super().__getitem__('root')[key]
+
     def __setitem__(self, key, value):
-        '''
-        Set or create new record
-        '''
-        pass
+        return super().__getitem__('root').__setitem__(key, value)
 
+    def __len__(self):
+        return super().__getitem__('root').__len__()
+
+    def get(self, key, default=None):
+        return super()._getitem__('root').get(key, default)
     
-    def __contains__(self, key):
-        '''
-        Check if the json-file contains a `key`
-        '''
-        pass
 
-
-    def close(self):
-        pass
+    # def close(self):
+    #     pass
