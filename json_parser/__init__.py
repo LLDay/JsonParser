@@ -1,1 +1,1 @@
-from . import json_file
+from .json_file import json_file
