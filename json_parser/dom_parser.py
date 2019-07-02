@@ -35,8 +35,13 @@ class TokenRules:
 
 
     def add_tfn(tree, tok):
-        value = tok.get_content(1)
-        tree.add_value(JsonValues[value])
+        value = {
+            'true': True,
+            'false': False,
+            'null': None
+        }[tok.get_content(1)]
+        
+        tree.add_value(value)
 
 
 def parse(filename):

@@ -1,10 +1,5 @@
 from enum import Enum
 
-class JsonValues(Enum):
-    null = 0
-    true = 1
-    false = 2
-
 class JsonTreeBuilder:
     '''
     Provides methods for generate JSON tree step by step
