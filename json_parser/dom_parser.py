@@ -36,9 +36,9 @@ class TokenRules:
 
     def add_tfn(tree, tok):
         value = {
-            'true': True,
-            'false': False,
-            'null': None
+            'true'  : True,
+            'false' : False,
+            'null'  : None
         }[tok.get_content(1)]
         
         tree.add_value(value)
@@ -48,17 +48,17 @@ def parse(filename):
     json_builder = JsonTreeBuilder()
 
     rules = {
-        TokenType.OpenObject: TokenRules.open_object,
-        TokenType.CloseObject: TokenRules.close_object,
-        TokenType.Key: TokenRules.add_key,
-        TokenType.OpenList: TokenRules.open_list,
-        TokenType.CloseList: TokenRules.close_object,
-        TokenType.ValueTFN: TokenRules.add_tfn,
-        TokenType.ValueString: TokenRules.add_string,
-        TokenType.ValueDigit: TokenRules.add_digit
+        TokenType.OpenObject  : TokenRules.open_object,
+        TokenType.CloseObject : TokenRules.close_object,
+        TokenType.Key         : TokenRules.add_key,
+        TokenType.OpenList    : TokenRules.open_list,
+        TokenType.CloseList   : TokenRules.close_object,
+        TokenType.ValueTFN    : TokenRules.add_tfn,
+        TokenType.ValueString : TokenRules.add_string,
+        TokenType.ValueDigit  : TokenRules.add_digit
     }
 
     for token in get_tokens(filename):
-        rules.get(token.get_type(), lambda tree, tok: 0)(json_builder, token)
+        rules.get(token.get_type(), lambda tree, tok: None)(json_builder, token)
     
     return json_builder.get_tree()
