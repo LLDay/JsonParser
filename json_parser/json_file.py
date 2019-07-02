@@ -9,5 +9,15 @@ def json_file(filename):
     class JsonFile(base):
         def __init__(self, root):
             super().__init__(root)
+
+        def __getitem__(self, root):
+            if isinstance(self, dict):
+                item = super()
+                for path in root.split('.'):
+                    item = item.__getitem__(path)
+                return item
+            
+            else:
+                return super().__getitem__(root)
         
     return JsonFile(root)
