@@ -41,7 +41,7 @@ class TokenType(Enum):
 class TokenGen:
     def __init__(self, token_type, lexem):
         self._type = token_type
-        self._lexem = r'[ \n\t]*' + lexem
+        self._lexem = r'[ \n\r\t]*' + lexem
         self._expects = []
 
     def expects(self, token):
