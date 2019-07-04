@@ -20,7 +20,36 @@ class JsonTreeBuilder:
 
         { "`key_name`": ... }
         '''
+        if not isinstance(self._current, dict):
+            raise RuntimeError("Only objects may have keys")
+
+        if key_name in self._current:
+            raise RuntimeError("A key must be unique within an object")
         self._pointer_key = key_name
+
+
+    def _into(self):
+        self._trace.append(self._current)
+        if isinstance(self._current, list):
+            self._current = self._current[-1]
+
+        elif isinstance(self._current, dict):
+            self._current = self._current[self._pointer_key]
+
+        else:
+            raise RuntimeError('Unspecified object: ' + str(self._trace.pop()))
+
+
+    def _add_any_value(self, value):
+        if isinstance(self._current, list):
+            self._current.append(value)
+
+        elif isinstance(self._current, dict):
+            self._current[self._pointer_key] = value
+
+        else:
+            raise RuntimeError('Unspecified object: ' + str(self._current))
+
 
     def add_object(self):
         '''
@@ -28,13 +57,9 @@ class JsonTreeBuilder:
 
         "last_key" : { }
         '''
-        self._trace.append(self._current)
-        if isinstance(self._current, list):
-            self._current.append({})
-            self._current = self._current[-1]
-        else:
-            self._current[self._pointer_key] = {}
-            self._current = self._current[self._pointer_key]
+        self._add_any_value({})
+        self._into()
+
 
     def add_list(self):
         '''
@@ -42,13 +67,9 @@ class JsonTreeBuilder:
 
         "last_key" : [ ]
         '''
-        self._trace.append(self._current)
-        if isinstance(self._current, list):
-            self._current.append([])
-            self._current = self._current[-1]
-        else:
-            self._current[self._pointer_key] = []
-            self._current = self._current[self._pointer_key]
+        self._add_any_value([])
+        self._into()
+
 
     def add_value(self, value):
         '''
@@ -57,10 +78,8 @@ class JsonTreeBuilder:
         "last_key" : `value`;
         "last_key" : [..., `value`]
         '''
-        if isinstance(self._current, list):
-            self._current.append(value)
-        else:
-            self._current[self._pointer_key] = value
+        self._add_any_value(value)
+        
 
     def get_tree(self):
         '''
