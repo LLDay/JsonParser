@@ -16,4 +16,6 @@ class JsonTester(unittest.TestCase):
 
         self.assertEqual(self.t1['version'], '0.2.0')
         self.assertEqual(self.t1['configurations']['name'], 'Python: Module')
-        self.assertEqual(self.t1['configurations.name'], 'Python: Module')
+        
+        print(self.t2._0)
+
