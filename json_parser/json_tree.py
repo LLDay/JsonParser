@@ -1,5 +1,5 @@
 from enum import Enum
-from .json_file import JsonList, JsonObject
+from .json_objects import JsonList, JsonObject
 
 
 class JsonTreeBuilder:
@@ -60,7 +60,13 @@ class JsonTreeBuilder:
 
         "last_key" : { }
         '''
-        self._add_any_value(self._obj_class)
+        if self._root == None:
+            self._root = self._obj_class()
+            self._current = self._root
+            self._trace.append(self._current)
+            return
+
+        self._add_any_value(self._obj_class())
         self._into()
 
 
@@ -70,7 +76,13 @@ class JsonTreeBuilder:
 
         "last_key" : [ ]
         '''
-        self._add_any_value(self._list_class)
+        if self._root == None:
+            self._root = self._list_class()
+            self._current = self._root
+            self._trace.append(self._current)
+            return
+
+        self._add_any_value(self._list_class())
         self._into()
 
 
