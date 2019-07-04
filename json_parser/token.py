@@ -71,7 +71,7 @@ def _get_token_generator():
 
     beg.expects([opo, opl])
     key.expects([vst, vdi, vbn, opo, opl])
-    opo.expects([key, clo, opl])
+    opo.expects([key, clo])
     clo.expects([sep, clo, cll])
     opl.expects([vst, vdi, vbn, cll, opo])
     cll.expects([sep, cll, clo])
