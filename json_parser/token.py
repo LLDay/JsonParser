@@ -18,30 +18,26 @@ class Token:
     def __str__(self):
         return self._type.name
 
-    def __repr__(self):
-        return "Token('{0}', '{1}')".format(self.get_content(), self._type.name)
-
-
 
 class TokenType(Enum):
-    Key = 0
-    OpenObject = 1
+    Key         = 0
+    OpenObject  = 1
     CloseObject = 2
-    OpenList = 3
-    CloseList = 4
-    Separator = 5
+    OpenList    = 3
+    CloseList   = 4
+    Separator   = 5
     ValueString = 6
-    ValueDigit = 7
-    ValueTFN = 8
-    Begin = 9
-    Root = 10
+    ValueDigit  = 7
+    ValueTFN    = 8
+    Begin       = 9
+    Root        = 10
 
 
 
 class TokenGen:
     def __init__(self, token_type, lexem):
         self._type = token_type
-        self._lexem = r'[ \n\r\t]*' + lexem
+        self._lexem = r'\s*' + lexem
         self._expects = []
 
     def expects(self, token):
@@ -59,10 +55,6 @@ class TokenGen:
 
     def __str__(self):
         return self._type
-
-    def __repr__(self):
-        return "TokenGen('{0}')".format(self._lexem)
-
 
 
 def _get_token_generator():
