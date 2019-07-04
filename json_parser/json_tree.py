@@ -1,5 +1,6 @@
 from enum import Enum
-from . import json_file as jf
+from .json_file import JsonList, JsonObject
+
 
 class JsonTreeBuilder:
     '''
@@ -8,12 +9,13 @@ class JsonTreeBuilder:
     Functions call order matters
     '''
 
-    def __init__(self):
-        self._root = None
-        self._current = None
-        self._trace = []
-        self._pointer_key = ''
-        
+    def __init__(self, obj_class=JsonObject, list_class=JsonList): 
+        self._root        = None
+        self._current     = None
+        self._pointer_key = None
+        self._trace       = []
+        self._obj_class   = obj_class
+        self._list_class  = list_class
 
     def add_key(self, key_name):
         '''
@@ -58,7 +60,7 @@ class JsonTreeBuilder:
 
         "last_key" : { }
         '''
-        self._add_any_value(jf.JsonObject())
+        self._add_any_value(self._obj_class)
         self._into()
 
 
@@ -68,7 +70,7 @@ class JsonTreeBuilder:
 
         "last_key" : [ ]
         '''
-        self._add_any_value(jf.JsonList)
+        self._add_any_value(self._list_class)
         self._into()
 
 

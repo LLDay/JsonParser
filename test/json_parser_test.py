@@ -1,11 +1,11 @@
 import unittest
-import json_parser as jp
+from json_parser.dom_parser import parse
 
 class JsonTester(unittest.TestCase):
     
     def setUp(self):
-        self.t1 = jp.json_file('test/jsons/t1.json')
-        self.t2 = jp.json_file('test/jsons/t2.json')
+        self.t1 = parse('test/jsons/t1.json')
+        self.t2 = parse('test/jsons/t2.json')
 
     def tearDown(self):
         pass

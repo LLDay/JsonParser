@@ -1,7 +1,5 @@
 import re
 
-from . import dom_parser as dp
-
 class JsonObject(dict):
     pass
 
@@ -36,6 +34,3 @@ class JsonList(list):
 
         return super().__getattribute__(attr)
 
-def json_file(filename):
-    root = dp.parse(filename)
-    return root
