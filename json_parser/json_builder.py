@@ -9,13 +9,11 @@ class JsonTreeBuilder:
     Functions call order matters
     '''
 
-    def __init__(self, obj_class=JsonObject, list_class=JsonList): 
+    def __init__(self): 
         self._root        = None
         self._current     = None
         self._pointer_key = None
-        self._trace       = []
-        self._obj_class   = obj_class
-        self._list_class  = list_class
+        self._trace = []
 
     def add_key(self, key_name):
         '''
@@ -61,12 +59,12 @@ class JsonTreeBuilder:
         "last_key" : { }
         '''
         if self._root == None:
-            self._root = self._obj_class()
+            self._root = JsonObject()
             self._current = self._root
             self._trace.append(self._current)
             return
 
-        self._add_any_value(self._obj_class())
+        self._add_any_value(JsonObject())
         self._into()
 
 
@@ -77,12 +75,12 @@ class JsonTreeBuilder:
         "last_key" : [ ]
         '''
         if self._root == None:
-            self._root = self._list_class()
+            self._root = JsonList()
             self._current = self._root
             self._trace.append(self._current)
             return
 
-        self._add_any_value(self._list_class())
+        self._add_any_value(JsonList())
         self._into()
 
 
