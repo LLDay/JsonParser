@@ -1,10 +1,7 @@
 import re
 
 class JsonObject(dict):
-    def __getattribute__(self, name):
-        if (name == 'd'):
-            return JsonDotNotation(self)
-        return super().__getattribute__(name)
+    pass
 
 class JsonDotNotation():
     def __init__(self, root):
@@ -41,9 +38,4 @@ class JsonList(list):
         if match:
             return super().__getitem__(int(match.group(1)))
 
-        if (attr == 'd'):
-            return JsonDotNotation(self)
-
         return super().__getattribute__(attr)
-
-

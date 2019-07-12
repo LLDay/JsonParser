@@ -38,7 +38,7 @@ class TokenRules:
         tree.add_value(value)
 
 
-def parse(filename):
+def parse(file):
     json_builder = JsonTreeBuilder()
 
     rules = {
@@ -52,7 +52,8 @@ def parse(filename):
         TokenType.ValueDigit  : TokenRules.add_digit
     }
 
-    for token in get_tokens(filename):
+    file.seek(0)
+    for token in get_tokens(file):
         rules.get(token.get_type(), lambda tree,
                   tok: None)(json_builder, token)
 

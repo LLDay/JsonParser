@@ -1,3 +1,3 @@
-from . import dom_parser
+from . import json_file
 
-__all__ = ['dom_parser']
+__all__ = ['json_file']

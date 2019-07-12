@@ -84,34 +84,33 @@ def _get_token_generator():
 
 
 
-def get_tokens(filename):
-    with open(filename) as file:
-        last_gen = _get_token_generator()
-        text = ''
+def get_tokens(file):
+    last_gen = _get_token_generator()
+    text = ''
 
-        while True:
-            last_read = file.readline()
-            text += last_read
-            found_token = True
+    while True:
+        last_read = file.readline()
+        text += last_read
+        found_token = True
 
-            while found_token:
-                if not text.strip():
-                    break
-                
-                found_token = False
-
-                for tokenGen in last_gen.expectations():
-                    token = tokenGen.generate(text)
-
-                    if token:
-                        text = text[len(token.get_content()):]
-                        last_gen = tokenGen
-                        found_token = True
-                        yield token
-                        break
-
-            if text and not last_read:
-                raise RuntimeError
-            
-            if not text and not last_read:
+        while found_token:
+            if not text.strip():
                 break
+            
+            found_token = False
+
+            for tokenGen in last_gen.expectations():
+                token = tokenGen.generate(text)
+
+                if token:
+                    text = text[len(token.get_content()):]
+                    last_gen = tokenGen
+                    found_token = True
+                    yield token
+                    break
+
+        if text and not last_read:
+            raise RuntimeError
+        
+        if not text and not last_read:
+            break
