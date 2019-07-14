@@ -1,0 +1,26 @@
+{
+    "version": "0.3.0",
+    "configurations": {
+        "name": "Json_Parser",
+        "type": "python project",
+        "author": "LLDay",
+        "subauthors": null
+    },
+    "new line": "I'm new line",
+    "new object": {
+        "Hello": "world",
+        "length": 12.5,
+        "temperature": 120.8
+    },
+    "new list": [
+        true,
+        false,
+        null,
+        true,
+        "Hello",
+        12,
+        0.3
+    ],
+    "empty object": {},
+    "empty list": []
+}
