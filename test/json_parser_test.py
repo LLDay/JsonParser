@@ -8,17 +8,19 @@ class JsonTester(unittest.TestCase):
         self.t2 = JsonFile('test/jsons/t2.json')
 
     def tearDown(self):
-        pass
+        self.t1.close()
+        self.t2.close()
 
     def test_reading(self):
-        
+        sr = str(self.t1['configurations'])
         self.assertEqual(self.t1.__len__(), 2)
         self.assertEqual(len(self.t1), 2)
         self.assertEqual(len(self.t2), 5)
 
         self.assertEqual(self.t1['version'], '0.2.0')
-        self.assertEqual(self.t1['configurations']['name'], 'Python: Module')
-        self.assertEqual(self.t1.d['configurations.name'], 'Python: Module')
+        self.assertEqual(self.t1['configurations']['name'], 'Json_Parser')
+        self.assertEqual(self.t1.d['configurations.name'], 'Json_Parser')
+        self.assertIsNone(self.t1.d['configurations.subauthors'])
 
         self.assertEqual(self.t2._0["index"], 0)
         self.assertEqual(self.t2._1["index"], 1)
@@ -29,3 +31,5 @@ class JsonTester(unittest.TestCase):
 
         self.assertTrue(self.t2.d['3.isActive'])
         
+if __name__ == '__main__':
+    unittest.main()
