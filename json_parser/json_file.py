@@ -22,20 +22,19 @@ class JsonFile:
 
     def _format_str(self):
         unformat_str = self._root.__str__()
-        format_str = ''
-
         tabs = 0
         space = ' ' * 4
         for line in unformat_str.split('\n'):
-            if re.match(r'.*[\}\]],?\s*$', line):
+            open_br = re.search(r'[\}\]],?\s*$', line)
+            close_br = re.search(r'[\{\[]\s*$', line)
+            op_cl_br = re.search(r'(?:{\s*}|\[\s*\]),?\s*$', line)
+                
+            if open_br and not op_cl_br:
                 tabs -= 1
-
             yield space * tabs + line
-
-            if re.match(r'.*[\{\[]\s*$', line):
+            
+            if close_br:
                 tabs += 1
-
-        return format_str
 
     def __str__(self):
         return '\n'.join(self._format_str())

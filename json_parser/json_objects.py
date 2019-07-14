@@ -16,7 +16,13 @@ def _json_str_value(value):
 
 
 class JsonObject(dict):
+    def __init__(self, *args, **kwargs):
+        return super().__init__(*args, **kwargs)
+
     def __str__(self):
+        if not len(self):
+            return '{}'
+         
         s = '{\n'
         s += ',\n'.join('"{0}": {1}'.format(k, _json_str_value(v))
                         for k, v in self.items())
@@ -56,6 +62,9 @@ class JsonDotNotation():
 
 
 class JsonList(list):
+    def __init__(self, *args):
+        return super().__init__(*args)
+
     def __getattribute__(self, attr):
         match = re.match(r'^_(\d+)$', attr)
         if match:
@@ -64,10 +73,8 @@ class JsonList(list):
         return super().__getattribute__(attr)
 
     def __str__(self):
-        oneline = '[' + ', '.join(_json_str_value(item) for item in self) + ']'
-
-        if len(oneline) < 40:
-            return oneline
+        if not len(self):
+            return '[]'
 
         multiline = '[\n'
         multiline += ',\n'.join('{0}'.format(_json_str_value(item)) for item in self)
