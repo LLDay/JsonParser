@@ -18,7 +18,7 @@ def _json_str_value(value):
 class JsonObject(dict):
     def __str__(self):
         s = '{\n'
-        s += ',\n'.join('  "{0}": {1}'.format(k, _json_str_value(v))
+        s += ',\n'.join('"{0}": {1}'.format(k, _json_str_value(v))
                         for k, v in self.items())
         s += '\n}'
         return s
@@ -64,7 +64,12 @@ class JsonList(list):
         return super().__getattribute__(attr)
 
     def __str__(self):
-        s = '[\n'
-        s += ',\n'.join('  {0}'.format(_json_str_value(item)) for item in self)
-        s += '\n]'
-        return s
+        oneline = '[' + ', '.join(_json_str_value(item) for item in self) + ']'
+
+        if len(oneline) < 40:
+            return oneline
+
+        multiline = '[\n'
+        multiline += ',\n'.join('{0}'.format(_json_str_value(item)) for item in self)
+        multiline += '\n]'
+        return multiline

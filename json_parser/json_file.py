@@ -3,7 +3,7 @@ from .json_objects import *
 
 class JsonFile:
     def __init__(self, filename, base=JsonObject):
-        self._file = open(filename)
+        self._file = open(filename, 'r+')
         self._root = parse(self._file)
         self._base = base
         self.d = JsonDotNotation(self._root)
@@ -18,7 +18,8 @@ class JsonFile:
         return self._root.__getitem__(key)
 
     def __str__(self):
-        return self._root.__str__()
+        unformat_str = self._root.__str__()
+        return unformat_str
 
     def __repr__(self):
         return self._root.__repr__()
@@ -30,5 +31,7 @@ class JsonFile:
         return self._root.__getattribute__(attrname)
 
     def close(self):
-        self._file.writelines(__str__())
+        self._file.seek(0)
+        self._file.truncate()
+        self._file.writelines(self.__str__())
         self._file.close()
