@@ -1,5 +1,8 @@
+import re
+
 from .dom_parser import parse
 from .json_objects import *
+
 
 class JsonFile:
     def __init__(self, filename, base=JsonObject):
@@ -17,9 +20,25 @@ class JsonFile:
     def __getitem__(self, key):
         return self._root.__getitem__(key)
 
-    def __str__(self):
+    def _format_str(self):
         unformat_str = self._root.__str__()
-        return unformat_str
+        format_str = ''
+
+        tabs = 0
+        space = ' ' * 4
+        for line in unformat_str.split('\n'):
+            if re.match(r'.*[\}\]],?\s*$', line):
+                tabs -= 1
+
+            yield space * tabs + line
+
+            if re.match(r'.*[\{\[]\s*$', line):
+                tabs += 1
+
+        return format_str
+
+    def __str__(self):
+        return '\n'.join(self._format_str())
 
     def __repr__(self):
         return self._root.__repr__()
