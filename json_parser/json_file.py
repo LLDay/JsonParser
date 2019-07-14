@@ -1,4 +1,5 @@
 import re
+import os.path
 
 from .dom_parser import parse
 from .json_objects import *
@@ -6,13 +7,16 @@ from .json_objects import *
 
 class JsonFile:
     def __init__(self, filename, base=JsonObject):
-        self._file = open(filename, 'r+')
+        if os.path.isfile(filename):
+            self._file = open(filename, 'r+')
+        else:
+            self._file = open(filename, 'w+')
         self._root = parse(self._file)
         self._base = base
         self.d = JsonDotNotation(self._root)
 
         if not self._root:
-            self_root = self._base.copy()
+            self._root = self._base()
 
     def __len__(self):
         return self._root.__len__()
@@ -28,7 +32,7 @@ class JsonFile:
             open_br = re.search(r'[\}\]],?\s*$', line)
             close_br = re.search(r'[\{\[]\s*$', line)
             op_cl_br = re.search(r'(?:{\s*}|\[\s*\]),?\s*$', line)
-                
+
             if open_br and not op_cl_br:
                 tabs -= 1
             yield space * tabs + line
