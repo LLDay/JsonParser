@@ -1,7 +1,28 @@
 import re
 
+
+def _json_str_value(value):
+    if value == None:
+        return 'null'
+
+    if isinstance(value, str):
+        return '"{0}"'.format(value)
+
+    elif isinstance(value, bool):
+        return {True: 'true',
+                False: 'false'}[value]
+    else:
+        return '{0}'.format(value)
+
+
 class JsonObject(dict):
-    pass
+    def __str__(self):
+        s = '{\n'
+        s += ',\n'.join('  "{0}": {1}'.format(k, _json_str_value(v))
+                        for k, v in self.items())
+        s += '\n}'
+        return s
+
 
 class JsonDotNotation():
     def __init__(self, root):
@@ -20,7 +41,8 @@ class JsonDotNotation():
 
     def __setitem__(self, path, value):
         if ' ' in path:
-            raise RuntimeError('This kind of objects contains only single words')
+            raise RuntimeError(
+                'This kind of objects contains only single words')
         if '.' in path:
             item = self.root
             path_list = path.split('.')
@@ -31,7 +53,8 @@ class JsonDotNotation():
             item.__setitem__(path_list[-1], value)
         else:
             self.root.__setitem__(path, value)
-        
+
+
 class JsonList(list):
     def __getattribute__(self, attr):
         match = re.match(r'^_(\d+)$', attr)
@@ -39,3 +62,9 @@ class JsonList(list):
             return super().__getitem__(int(match.group(1)))
 
         return super().__getattribute__(attr)
+
+    def __str__(self):
+        s = '[\n'
+        s += ',\n'.join('  {0}'.format(_json_str_value(item)) for item in self)
+        s += '\n]'
+        return s

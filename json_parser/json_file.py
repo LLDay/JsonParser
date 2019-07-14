@@ -17,6 +17,12 @@ class JsonFile:
     def __getitem__(self, key):
         return self._root.__getitem__(key)
 
+    def __str__(self):
+        return self._root.__str__()
+
+    def __repr__(self):
+        return self._root.__repr__()
+
     def __setitem__(self, key, value):
         return self._root.__setitem__(key, value)
 
@@ -24,4 +30,5 @@ class JsonFile:
         return self._root.__getattribute__(attrname)
 
     def close(self):
+        self._file.writelines(__str__())
         self._file.close()
