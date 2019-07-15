@@ -63,7 +63,7 @@ class JsonDotNotation():
 
 class JsonList(list):
     def __init__(self, *args):
-        return super().__init__(*args)
+        return super().__init__(args)
 
     def __getattribute__(self, attr):
         match = re.match(r'^_(\d+)$', attr)
