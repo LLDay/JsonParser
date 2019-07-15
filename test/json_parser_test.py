@@ -36,20 +36,19 @@ class JsonTester(unittest.TestCase):
     def test_writing(self):
         copy2('test/jsons/t1.json', 'test/jsons/t3.json')
         t3 = JsonFile('test/jsons/t3.json')
-        t3['version'] = '0.3.0'
+
+        del t3['configurations']['subauthors']
+        del t3['version']
+
+        t3['configurations']['type'] = 'Test'
         t3['new line'] = "I'm new line"
         t3['new object'] = JsonObject({'Hello': 'world'}, length=12.5)
         t3['new object']['temperature'] = 120.8
-        t3['new list'] = JsonList([True, False, None])
+        t3['new list'] = JsonList(True, False, None)
         t3['new list'].extend([True, "Hello", 12, 0.3])
         t3['empty object'] = JsonObject()
         t3['empty list'] = JsonList() 
         t3.close()
 
-        # t1_file = open('test/jsons/t3.json')
-        # all_text = t1_file.read()
-        # self.assertRegexpMatches(all_text, r'.*"version": "0.3.0".*')
-        # self.assertRegexpMatches(all_text, r'.*"new line": "I\'m new line"')
-        
 if __name__ == '__main__':
     unittest.main()

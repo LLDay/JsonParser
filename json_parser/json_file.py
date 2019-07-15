@@ -21,6 +21,9 @@ class JsonFile:
     def __len__(self):
         return self._root.__len__()
 
+    def __delitem__(self, key):
+        return self._root.__delitem__(key)
+
     def __getitem__(self, key):
         return self._root.__getitem__(key)
 

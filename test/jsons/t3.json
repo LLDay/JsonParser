@@ -1,10 +1,8 @@
 {
-    "version": "0.3.0",
     "configurations": {
         "name": "Json_Parser",
-        "type": "python project",
-        "author": "LLDay",
-        "subauthors": null
+        "type": "Test",
+        "author": "LLDay"
     },
     "new line": "I'm new line",
     "new object": {
