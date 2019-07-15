@@ -1,5 +1,4 @@
 import unittest
-from shutil import copy2
 from json_parser import *
 
 class JsonTester(unittest.TestCase):
@@ -33,9 +32,10 @@ class JsonTester(unittest.TestCase):
         t1.close()
         t2.close()
 
-    def test_writing(self):
-        copy2('test/jsons/t1.json', 'test/jsons/t3.json')
-        t3 = JsonFile('test/jsons/t3.json')
+    def test_example(self):
+        t1 = JsonFile('test/jsons/t1.json')
+        t3 = JsonFile('test/jsons/t3.json', root=t1.tree_copy())
+        t1.close()
 
         del t3['configurations']['subauthors']
         del t3['version']

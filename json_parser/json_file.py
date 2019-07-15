@@ -1,22 +1,23 @@
 import re
 import os.path
+import copy
 
 from .dom_parser import parse
 from .json_objects import *
 
 
 class JsonFile:
-    def __init__(self, filename, base=JsonObject):
-        if os.path.isfile(filename):
-            self._file = open(filename, 'r+')
-        else:
-            self._file = open(filename, 'w+')
-        self._root = parse(self._file)
-        self._base = base
-        self.d = JsonDotNotation(self._root)
+    def __init__(self, filename, root=None):
+        mode = 'r+' if os.path.isfile(filename) else 'w+'
+        self._file = open(filename, mode)
 
-        if not self._root:
-            self._root = self._base()
+        if not root:
+            parsed = parse(self._file)
+            self._root = parsed if parsed != None else JsonObject()
+        else:
+            self._root = copy.deepcopy(root)
+
+        self.d = JsonDotNotation(self._root)
 
     def __len__(self):
         return self._root.__len__()
@@ -54,6 +55,9 @@ class JsonFile:
 
     def __getattr__(self, attrname):
         return self._root.__getattribute__(attrname)
+
+    def tree_copy(self):
+        return copy.deepcopy(self._root)
 
     def close(self):
         self._file.seek(0)
