@@ -32,25 +32,25 @@ class JsonObject(dict):
 
 class JsonDotNotation():
     def __init__(self, root):
-        self.root = root
+        self._root = root
 
     def __getitem__(self, path):
         if '.' in path:
-            item = self.root
+            item = self._root
             for key in path.split('.'):
                 if isinstance(item, list):
                     item = item.__getitem__(int(key))
                 else:
                     item = item.__getitem__(key)
             return item
-        return self.root.__getitem__(path)
+        return self._root.__getitem__(path)
 
     def __setitem__(self, path, value):
         if ' ' in path:
             raise RuntimeError(
                 'This kind of objects contains only single words')
         if '.' in path:
-            item = self.root
+            item = self._root
             path_list = path.split('.')
             for key in path_list[:-1]:
                 if not item.__contains__(key):
@@ -58,7 +58,7 @@ class JsonDotNotation():
                 item = item.__getitem__(key)
             item.__setitem__(path_list[-1], value)
         else:
-            self.root.__setitem__(path, value)
+            self._root.__setitem__(path, value)
 
 
 class JsonList(list):
