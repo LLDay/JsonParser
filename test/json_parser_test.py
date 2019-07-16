@@ -66,5 +66,27 @@ class JsonTester(unittest.TestCase):
         t1.clear(root)
         t1.close()
 
+    def test_dot_notation(self):
+        t2 = JsonFile('test/jsons/t2.json')
+        self.assertEqual(t2.d['0.friends.0.name'], 'Stewart Vaughan')
+        self.assertEqual(t2.d['3.tags.-1'], 'eiusmod')
+        t2.close()
+
+        t4 = JsonFile('test/jsons/t4.json', JsonList())
+        t4.append(JsonObject(key="value", list=JsonList(True, 8, None)))
+        t4.d['0.new_key'] = 'new value'
+        t4.d['0.list'].append(False)
+
+        self.assertEqual(t4.d['0.list.1'], 8)
+        self.assertEqual(len(t4.d['0.list']), 4)
+
+        def assign():
+            t4.d['0.undefined.path'] = 'value'
+
+        self.assertRaises(KeyError, assign)
+        t4.d['0.undefined'] = JsonObject()
+        assign()
+        self.assertEqual(t4.d['0.undefined.path'], 'value')
+
 if __name__ == '__main__':
     unittest.main()
