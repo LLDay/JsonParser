@@ -11,7 +11,7 @@ class JsonFile:
         mode = 'r+' if os.path.isfile(filename) else 'w+'
         self._file = open(filename, mode)
 
-        if not root:
+        if root == None:
             parsed = parse(self._file)
             self._root = parsed if parsed != None else JsonObject()
         else:
