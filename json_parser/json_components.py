@@ -53,8 +53,6 @@ class JsonDotNotation():
             item = self._root
             path_list = path.split('.')
             for key in path_list[:-1]:
-                if not item.__contains__(key):
-                    item.__setitem__(key, JsonDotNotation())
                 item = item.__getitem__(key)
             item.__setitem__(path_list[-1], value)
         else:

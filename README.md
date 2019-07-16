@@ -1,7 +1,27 @@
 # Json Parser #
 ## Description ##
     
-This module provides the `JsonFile` class to read and modify a created json-file or creating a new one.
+This module provides classes to read and modify a created json-file or create a new one.
+
+## Features ##
+### Dot notation ### 
+There is ability to access items usingt the dot-notation syntax:
+```python
+my_json = JsonFile('path')
+var = my_json.d['path.to.item']
+my_json.d['other.path'] = 'value'
+my_json.d['key_for_list.1.key']
+```
+This is equivalent to the following:
+```python
+my_json = JsonFile('path')
+var = my_json['path']['to']['item']
+my_json['other']['path'] = 'value'
+my_json['key_for_list'][1]['key]
+```
+To get the value objects must already exist under the `'path'` and `'to'`  keys.
+
+Access to keys with spaces is not allowed.
 
 ## Example ##
 Json-file before modification:
