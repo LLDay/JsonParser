@@ -1,5 +1,5 @@
 from enum import Enum
-from .json_objects import JsonList, JsonObject
+from .json_components import JsonList, JsonObject
 
 
 class JsonTreeBuilder:

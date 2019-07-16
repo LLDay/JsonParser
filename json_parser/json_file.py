@@ -3,7 +3,7 @@ import os.path
 import copy
 
 from .dom_parser import parse
-from .json_objects import *
+from .json_components import *
 
 
 class JsonFile:
