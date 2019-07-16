@@ -8,12 +8,14 @@ from .json_components import *
 
 class JsonFile:
     def __init__(self, filename, root=None):
-        mode = 'r+' if os.path.isfile(filename) else 'w+'
-        self._file = open(filename, mode)
+        if os.path.isfile(filename):
+            self._file = open(filename, 'r+')
+        else:
+             self._file = None
+             self._filename = filename
 
         if root == None:
-            parsed = parse(self._file)
-            self._root = parsed if parsed != None else JsonObject()
+            self._root = parse(self._file) if self._file else JsonObject()
         else:
             self._root = root
 
@@ -63,8 +65,14 @@ class JsonFile:
         self._root = new_root
         self.d = JsonDotNotation(self._root)
 
-    def close(self):
+    def save(self):
+        if self._file == None:
+            self._file = open(self._filename, 'w')
         self._file.seek(0)
         self._file.truncate()
         self._file.writelines(self.__str__())
-        self._file.close()
+        return self
+
+    def close(self):
+        if self._file != None:
+            self._file.close()

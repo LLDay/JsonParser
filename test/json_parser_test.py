@@ -48,7 +48,7 @@ class JsonTester(unittest.TestCase):
         t3['new list'].extend([True, "Hello", 12, 0.3])
         t3['empty object'] = JsonObject()
         t3['empty list'] = JsonList() 
-        t3.close()
+        t3.save().close()
 
         t3 = JsonFile('test/jsons/t3.json')
         self.assertEquals(t3.d['configurations.type'], 'Test')
@@ -87,6 +87,7 @@ class JsonTester(unittest.TestCase):
         t4.d['0.undefined'] = JsonObject()
         assign()
         self.assertEqual(t4.d['0.undefined.path'], 'value')
+        t4.close()
 
 if __name__ == '__main__':
     unittest.main()
