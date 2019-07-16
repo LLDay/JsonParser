@@ -20,11 +20,11 @@ class JsonTester(unittest.TestCase):
         self.assertEqual(t1.d['configurations.name'], 'Json_Parser')
         self.assertIsNone(t1.d['configurations.subauthors'])
 
-        self.assertEqual(t2._0["index"], 0)
-        self.assertEqual(t2._1["index"], 1)
+        self.assertEqual(t2[0]["index"], 0)
+        self.assertEqual(t2[1]["index"], 1)
 
-        self.assertEqual(t2._0['friends']._1['name'], 'Burnett Salinas')
-        self.assertTrue(t2._3['latitude'] < -40)
+        self.assertEqual(t2[0]['friends'][1]['name'], 'Burnett Salinas')
+        self.assertTrue(t2[3]['latitude'] < -40)
         self.assertTrue(t2[3]['isActive'])
 
         self.assertTrue(t2.d['3.isActive'])
@@ -52,7 +52,7 @@ class JsonTester(unittest.TestCase):
 
         t3 = JsonFile('test/jsons/t3.json')
         self.assertEquals(t3.d['configurations.type'], 'Test')
-        self.assertTrue(t3['new list']._4)
+        self.assertTrue(t3['new list'][4])
         t3.close()
 
     def test_clear(self):

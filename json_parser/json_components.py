@@ -65,13 +65,6 @@ class JsonList(list):
     def __init__(self, *args):
         return super().__init__(args)
 
-    def __getattribute__(self, attr):
-        match = re.match(r'^_(\d+)$', attr)
-        if match:
-            return super().__getitem__(int(match.group(1)))
-
-        return super().__getattribute__(attr)
-
     def __str__(self):
         if not len(self):
             return '[]'
