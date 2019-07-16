@@ -15,7 +15,7 @@ class JsonFile:
             parsed = parse(self._file)
             self._root = parsed if parsed != None else JsonObject()
         else:
-            self._root = copy.deepcopy(root)
+            self._root = root
 
         self.d = JsonDotNotation(self._root)
 
@@ -58,6 +58,10 @@ class JsonFile:
 
     def tree_copy(self):
         return copy.deepcopy(self._root)
+
+    def clear(self, new_root=JsonObject()):
+        self._root = new_root
+        self.d = JsonDotNotation(self._root)
 
     def close(self):
         self._file.seek(0)

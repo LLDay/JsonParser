@@ -50,5 +50,21 @@ class JsonTester(unittest.TestCase):
         t3['empty list'] = JsonList() 
         t3.close()
 
+        t3 = JsonFile('test/jsons/t3.json')
+        self.assertEquals(t3.d['configurations.type'], 'Test')
+        self.assertTrue(t3['new list']._4)
+        t3.close()
+
+    def test_clear(self):
+        t1 = JsonFile('test/jsons/t1.json')
+        root = t1.tree_copy()
+        self.assertTrue(t1)
+
+        t1.clear()
+        self.assertFalse(t1)
+        
+        t1.clear(root)
+        t1.close()
+
 if __name__ == '__main__':
     unittest.main()
