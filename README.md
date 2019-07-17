@@ -24,7 +24,7 @@ To get the value objects must already exist under the `'path'` and `'to'` keys.
 Access to keys with spaces is not allowed.
 
 ### File safety ###
-If you open file only to read and do not want to change the source, don't call `JsonParser.save()` method that rewrites file. This prevents accidental data loss.
+If you open file only to read and do not want to change the source, don't call `JsonFile.save()` method that rewrites file. This prevents accidental data loss.
 If you are sure that you have changed the Json structure correctly, call the `save()` method to apply the changes.
 
 ## Example ##
