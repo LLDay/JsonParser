@@ -5,7 +5,7 @@ This module provides classes to read and modify a created json-file or create a 
 
 ## Features ##
 ### Dot notation ### 
-There is ability to access items usingt the dot-notation syntax:
+There is ability to access items using the dot-notation syntax:
 ```python
 my_json = JsonFile('path')
 var = my_json.d['path.to.item']
