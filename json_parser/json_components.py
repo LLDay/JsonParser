@@ -43,13 +43,8 @@ class JsonDotNotation():
         if '.' in path:
             path_list = path.split('.')
             for key in path_list[:-1]:
-                if isinstance(parent, list):
-                    parent = parent.__getitem__(int(key))
-                else:
-                    parent = parent.__getitem__(key)
+                parent = parent.__getitem__(key)
 
-        if isinstance(parent, list):
-            return parent, int(path_list[-1])
         return parent, path_list[-1]
 
     def __getitem__(self, path):
@@ -74,3 +69,9 @@ class JsonList(list):
                                 for item in self)
         multiline += '\n]'
         return multiline
+
+    def __getitem__(self, index):
+        if isinstance(index, str):
+            return super().__getitem__(int(index))
+        else:
+            return super().__getitem__(index)
