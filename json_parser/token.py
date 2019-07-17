@@ -37,7 +37,7 @@ class TokenType(Enum):
 class TokenGen:
     def __init__(self, token_type, lexem):
         self._type = token_type
-        self._lexem = r'\s*' + lexem
+        self._lexem = r'\s*' + lexem + r'\s*'
         self._expects = []
 
     def expects(self, token):
@@ -86,31 +86,18 @@ def _get_token_generator():
 
 def get_tokens(file):
     last_gen = _get_token_generator()
-    text = ''
+    text = file.read()
 
-    while True:
-        last_read = file.readline()
-        text += last_read
-        found_token = True
+    while text:
+        last_text = text
 
-        while found_token:
-            if not text.strip():
+        for tokenGen in last_gen.expectations():
+            token = tokenGen.generate(text)
+            if token:
+                text = text[len(token.get_content()):]
+                last_gen = tokenGen
+                yield token
                 break
-            
-            found_token = False
 
-            for tokenGen in last_gen.expectations():
-                token = tokenGen.generate(text)
-
-                if token:
-                    text = text[len(token.get_content()):]
-                    last_gen = tokenGen
-                    found_token = True
-                    yield token
-                    break
-
-        if text and not last_read:
+        if text == last_text:
             raise RuntimeError
-        
-        if not text and not last_read:
-            break
