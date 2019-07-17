@@ -37,7 +37,7 @@ class JsonDotNotation():
     def _reach_parent_node(self, path):
         if ' ' in path:
             raise RuntimeError(
-                "Path shuldn't contain spaces")
+                "Path shouldn't contain spaces")
 
         parent = self._root
         if '.' in path:
