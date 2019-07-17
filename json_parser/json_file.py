@@ -11,8 +11,8 @@ class JsonFile:
         if os.path.isfile(filename):
             self._file = open(filename, 'r+')
         else:
-             self._file = None
-             self._filename = filename
+            self._file = None
+            self._filename = filename
 
         if root == None:
             self._root = parse(self._file) if self._file else JsonObject()
@@ -30,10 +30,12 @@ class JsonFile:
     def __getitem__(self, key):
         return self._root.__getitem__(key)
 
-    def _format_str(self):
+    def _format_str(self, spaces_number):
         unformat_str = self._root.__str__()
         tabs = 0
-        space = ' ' * 4
+        space = ' ' * spaces_number
+        res = []
+
         for line in unformat_str.split('\n'):
             open_br = re.search(r'[\}\]],?\s*$', line)
             close_br = re.search(r'[\{\[]\s*$', line)
@@ -41,13 +43,15 @@ class JsonFile:
 
             if open_br and not op_cl_br:
                 tabs -= 1
-            yield space * tabs + line
-            
+            res.append(space * tabs + line)
+
             if close_br:
                 tabs += 1
 
+        return '\n'.join(res)
+
     def __str__(self):
-        return '\n'.join(self._format_str())
+        return self._format_str(4)
 
     def __repr__(self):
         return self._root.__repr__()
@@ -65,12 +69,12 @@ class JsonFile:
         self._root = new_root
         self.d = JsonDotNotation(self._root)
 
-    def save(self):
+    def save(self, spaces_number=4):
         if self._file == None:
             self._file = open(self._filename, 'w')
         self._file.seek(0)
         self._file.truncate()
-        self._file.writelines(self.__str__())
+        self._file.writelines(self._format_str(spaces_number))
         return self
 
     def close(self):
