@@ -5,7 +5,7 @@ This module provides classes to read and modify a created json-file or create a 
 
 ## Features ##
 ### Dot notation ### 
-There is ability to access items usingt the dot-notation syntax:
+There is ability to access items using the dot-notation syntax:
 ```python
 my_json = JsonFile('path')
 var = my_json.d['path.to.item']
@@ -26,6 +26,9 @@ Access to keys with spaces is not allowed.
 ### File safety ###
 If you open file only to read and do not want to change the source, don't call `JsonFile.save()` method that rewrites file. This prevents accidental data loss.
 If you are sure that you have changed the Json structure correctly, call the `save()` method to apply the changes.
+
+### Refactoring ###
+If your json-file has not been formatted, saving will format the file. Optional argument `spaces_number` of the `save()` method changes the indentation width. The default value equals 4 spaces.
 
 ## Example ##
 Json-file before modification:
