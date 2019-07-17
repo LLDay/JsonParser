@@ -17,11 +17,15 @@ This is equivalent to the following:
 my_json = JsonFile('path')
 var = my_json['path']['to']['item']
 my_json['other']['path'] = 'value'
-my_json['key_for_list'][1]['key]
+my_json['key_for_list'][1]['key']
 ```
-To get the value objects must already exist under the `'path'` and `'to'`  keys.
+To get the value objects must already exist under the `'path'` and `'to'` keys.
 
 Access to keys with spaces is not allowed.
+
+### File safety ###
+If you open file only to read and do not want to change the source, don't call `JsonParser.save()` method that rewrites file. This prevents accidental data loss.
+If you are sure that you have changed the Json structure correctly, call the `save()` method to apply the changes.
 
 ## Example ##
 Json-file before modification:
@@ -48,7 +52,7 @@ my_json['list_name'].append(4)
 my_json['obj_name'] = JsonObject({'month': 'Dec'}, day=18)
 my_json['obj_name']['year'] = 2010
 
-my_json.close()
+my_json.save().close()
 ```
 
 Json-file after modification:
