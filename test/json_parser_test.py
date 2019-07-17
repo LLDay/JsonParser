@@ -64,6 +64,8 @@ class JsonTester(unittest.TestCase):
         self.assertFalse(t1)
         
         t1.clear(root)
+        self.assertDictEqual(root, t1.tree_copy())
+        
         t1.close()
 
     def test_dot_notation(self):
