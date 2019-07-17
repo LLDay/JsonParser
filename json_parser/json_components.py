@@ -22,7 +22,7 @@ class JsonObject(dict):
     def __str__(self):
         if not len(self):
             return '{}'
-         
+
         s = '{\n'
         s += ',\n'.join('"{0}": {1}'.format(k, _json_str_value(v))
                         for k, v in self.items())
@@ -34,33 +34,32 @@ class JsonDotNotation():
     def __init__(self, root):
         self._root = root
 
-    def __getitem__(self, path):
-        if '.' in path:
-            item = self._root
-            for key in path.split('.'):
-                if isinstance(item, list):
-                    item = item.__getitem__(int(key))
-                else:
-                    item = item.__getitem__(key)
-            return item
-        return self._root.__getitem__(path)
-
-    def __setitem__(self, path, value):
+    def _reach_parent_node(self, path):
         if ' ' in path:
             raise RuntimeError(
-                'This kind of objects contains only single words')
+                "Path shuldn't contain spaces")
+
+        parent = self._root
         if '.' in path:
-            item = self._root
             path_list = path.split('.')
             for key in path_list[:-1]:
-                if isinstance(item, list):
-                    item = item.__getitem__(int(key))
+                if isinstance(parent, list):
+                    parent = parent.__getitem__(int(key))
                 else:
-                    item = item.__getitem__(key)
-            item.__setitem__(path_list[-1], value)
-        else:
-            self._root.__setitem__(path, value)
+                    parent = parent.__getitem__(key)
 
+        if isinstance(parent, list):
+            return parent, int(path_list[-1])
+        return parent, path_list[-1]
+
+    def __getitem__(self, path):
+        parent, path = self._reach_parent_node(path) 
+        return parent[path]
+
+    def __setitem__(self, path, value):
+        parent, path = self._reach_parent_node(path)
+        parent[path] = value
+        
 
 class JsonList(list):
     def __init__(self, *args):
@@ -71,6 +70,7 @@ class JsonList(list):
             return '[]'
 
         multiline = '[\n'
-        multiline += ',\n'.join('{0}'.format(_json_str_value(item)) for item in self)
+        multiline += ',\n'.join('{0}'.format(_json_str_value(item))
+                                for item in self)
         multiline += '\n]'
         return multiline
