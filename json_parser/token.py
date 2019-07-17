@@ -58,13 +58,13 @@ class TokenGen:
 
 
 def _get_token_generator():
-    key = TokenGen(TokenType.Key, r'\"(.*)\":')
+    key = TokenGen(TokenType.Key, r'"(.+?)"\s*:')
     opo = TokenGen(TokenType.OpenObject, r'\{')
     clo = TokenGen(TokenType.CloseObject, r'\}')
     opl = TokenGen(TokenType.OpenList, r'\[')
     cll = TokenGen(TokenType.CloseList, r'\]')
     sep = TokenGen(TokenType.Separator, r',')
-    vst = TokenGen(TokenType.ValueString, r'\"(.*)\"')
+    vst = TokenGen(TokenType.ValueString, r'\"(.+?)\"')
     vdi = TokenGen(TokenType.ValueDigit, r'(-?\d+(?:.\d+)?(?:[eE][-+]?\d+)?)')
     vbn = TokenGen(TokenType.ValueTFN, r'(true|false|null)')
     beg = TokenGen(TokenType.Begin, r'')
