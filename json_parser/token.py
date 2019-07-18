@@ -100,4 +100,4 @@ def get_tokens(file):
                 break
 
         if text == last_text:
-            raise RuntimeError
+            raise RuntimeError('Some syntax errors in json file')
