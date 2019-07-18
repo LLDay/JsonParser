@@ -35,9 +35,9 @@ class TokenType(Enum):
 
 
 class TokenGen:
-    def __init__(self, token_type, lexem):
+    def __init__(self, token_type, lexeme):
         self._type = token_type
-        self._lexem = r'\s*' + lexem + r'\s*'
+        self._lexeme = r'\s*' + lexeme + r'\s*'
         self._expects = []
 
     def expects(self, token):
@@ -50,7 +50,7 @@ class TokenGen:
         return self._expects
 
     def generate(self, text):
-        content = re.match(self._lexem, text)
+        content = re.match(self._lexeme, text)
         return Token(content, self._type)
 
     def __str__(self):
