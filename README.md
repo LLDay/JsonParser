@@ -1,7 +1,7 @@
 # Json Parser #
 ## Description ##
     
-This module provides classes to read and modify a created json-file or create a new one.
+This module provides classes to read and modify a created json-file or create a new one. File is read completely at once (`DOM-parser`).
 
 ## Features ##
 ### Dot notation ### 
