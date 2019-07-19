@@ -30,6 +30,9 @@ class JsonFile:
     def __getitem__(self, key):
         return self._root.__getitem__(key)
 
+    def __contains__(self, key):
+        return self._root.__contains__(key)
+
     def _format_str(self, spaces_number):
         unformat_str = self._root.__str__()
         tabs = 0

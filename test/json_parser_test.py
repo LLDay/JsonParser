@@ -53,6 +53,7 @@ class JsonTester(unittest.TestCase):
         t3 = JsonFile('resources/t3.json')
         self.assertEqual(t3.d['configurations.type'], 'Test')
         self.assertTrue(t3['new list'][4])
+        self.assertTrue('empty list' in t3)
         t3.close()
 
     def test_clear(self):
