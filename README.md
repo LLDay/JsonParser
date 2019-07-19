@@ -3,6 +3,18 @@
     
 This module provides classes to read and modify a created json-file or create a new one. File is read completely at once (`DOM-parser`).
 
+## Warning ##
+If you pass the second optional argument of the JsonFile class, the file will not be read.
+
+This will read the file:
+```python
+my_json = JsonFile('filename')
+```
+This will not read the file
+```python
+my_json = JsonFile('filename', JsonList()) #or something else
+```
+
 ## Features ##
 ### Dot notation ### 
 There is ability to access items using the dot-notation syntax:
