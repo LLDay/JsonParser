@@ -10,7 +10,7 @@ This will read the file:
 ```python
 my_json = JsonFile('filename')
 ```
-This will not read the file
+This will not read the file (`JsonFile.clear(new_root)` analog)
 ```python
 my_json = JsonFile('filename', JsonList()) #or something else
 ```
