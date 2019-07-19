@@ -10,8 +10,8 @@ class JsonTester(unittest.TestCase):
         pass
 
     def test_reading(self):
-        t1 = JsonFile('test/jsons/t1.json')
-        t2 = JsonFile('test/jsons/t2.json')
+        t1 = JsonFile('resources/t1.json')
+        t2 = JsonFile('resources/t2.json')
         self.assertEqual(len(t1), 2)
         self.assertEqual(len(t2), 5)
 
@@ -33,8 +33,8 @@ class JsonTester(unittest.TestCase):
         t2.close()
 
     def test_example(self):
-        t1 = JsonFile('test/jsons/t1.json')
-        t3 = JsonFile('test/jsons/t3.json', root=t1.tree_copy())
+        t1 = JsonFile('resources/t1.json')
+        t3 = JsonFile('resources/t3.json', root=t1.tree_copy())
         t1.close()
 
         del t3['configurations']['subauthors']
@@ -50,13 +50,13 @@ class JsonTester(unittest.TestCase):
         t3['empty list'] = JsonList() 
         t3.save().close()
 
-        t3 = JsonFile('test/jsons/t3.json')
-        self.assertEquals(t3.d['configurations.type'], 'Test')
+        t3 = JsonFile('resources/t3.json')
+        self.assertEqual(t3.d['configurations.type'], 'Test')
         self.assertTrue(t3['new list'][4])
         t3.close()
 
     def test_clear(self):
-        t1 = JsonFile('test/jsons/t1.json')
+        t1 = JsonFile('resources/t1.json')
         root = t1.tree_copy()
         self.assertTrue(t1)
 
@@ -69,12 +69,12 @@ class JsonTester(unittest.TestCase):
         t1.close()
 
     def test_dot_notation(self):
-        t2 = JsonFile('test/jsons/t2.json')
+        t2 = JsonFile('resources/t2.json')
         self.assertEqual(t2.d['0.friends.0.name'], 'Stewart Vaughan')
         self.assertEqual(t2.d['3.tags.-1'], 'eiusmod')
         t2.close()
 
-        t4 = JsonFile('test/jsons/t4.json', JsonList())
+        t4 = JsonFile('resources/t4.json', JsonList())
         t4.append(JsonObject(key="value", list=JsonList(True, 8, None)))
         t4.d['0.new_key'] = 'new value'
         t4.d['0.list'].append(False)
@@ -90,6 +90,4 @@ class JsonTester(unittest.TestCase):
         assign()
         self.assertEqual(t4.d['0.undefined.path'], 'value')
         t4.close()
-
-if __name__ == '__main__':
-    unittest.main()
+        
