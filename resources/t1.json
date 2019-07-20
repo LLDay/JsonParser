@@ -6,6 +6,7 @@
         
         
         "Json_Parser","type": "python project" , "author" : "LLDay",
+        "escape within quotes \" :" : ":\":",
         "subauthors": null
 
     }}

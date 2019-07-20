@@ -2,7 +2,8 @@
     "configurations": {
         "name": "Json_Parser",
         "type": "Test",
-        "author": "LLDay"
+        "author": "LLDay",
+        "escape within quotes \" :": ":\":"
     },
     "new line": "I'm new line",
     "new object": {
