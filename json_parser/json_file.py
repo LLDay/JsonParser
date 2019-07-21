@@ -40,16 +40,15 @@ class JsonFile:
         res = []
 
         for line in unformat_str.split('\n'):
-            open_br = re.search(r'[\}\]],?\s*$', line)
-            close_br = re.search(r'[\{\[]\s*$', line)
-            op_cl_br = re.search(r'(?:{\s*}|\[\s*\]),?\s*$', line)
-
-            if open_br and not op_cl_br:
+            close_brackets = re.search(r'(?<![\{\[])[\}\]],?$', line)
+            if close_brackets:
                 tabs -= 1
+
             res.append(space * tabs + line)
 
-            if close_br:
-                tabs += 1
+            open_brackets = re.search(r'[\{\[]\s*$', line)
+            if open_brackets:
+                tabs += 1            
 
         return '\n'.join(res)
 
